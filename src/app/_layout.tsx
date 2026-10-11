@@ -9,7 +9,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <SQLiteProvider databaseName="wishlist.db" onInit={migrateDbIfNeeded}>
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="item/new" options={{ presentation: 'modal' }} />

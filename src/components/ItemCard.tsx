@@ -15,42 +15,64 @@ export function ItemCard({
 }) {
   const badge = priorityColors[item.priority];
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.card, pressed && styles.pressed]}>
-      <View style={styles.topRow}>
-        <View style={[styles.priority, { backgroundColor: badge.background }]}>
-          <Text style={[styles.priorityText, { color: badge.foreground }]}>P{item.priority} · {priorityLabels[item.priority]}</Text>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${item.name}, ${item.category}, ${formatRupees(item.status === 'purchased' ? item.actualPrice ?? item.estimatedPrice : item.estimatedPrice)}`}
+      accessibilityHint="Opens item details"
+      onPress={onPress}
+      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+    >
+      <View style={styles.copy}>
+        <Text style={[styles.name, item.status === 'purchased' && styles.purchasedName]} numberOfLines={2}>{item.name}</Text>
+        <View style={styles.meta}>
+          <Text style={styles.category} numberOfLines={1}>{item.category}</Text>
+          <View style={[styles.priority, { backgroundColor: badge.background }]}>
+            <Text style={[styles.priorityText, { color: badge.foreground }]}>P{item.priority} · {priorityLabels[item.priority]}</Text>
+          </View>
         </View>
-        <Text style={styles.price}>{formatRupees(item.status === 'purchased' ? item.actualPrice ?? item.estimatedPrice : item.estimatedPrice)}</Text>
       </View>
-      <Text style={[styles.name, item.status === 'purchased' && styles.purchasedName]} numberOfLines={2}>{item.name}</Text>
-      <Text style={styles.category}>{item.category}</Text>
-      <View style={styles.bottomRow}>
-        <Text style={styles.itemCaption}>{item.status === 'purchased' ? 'Purchased' : 'Estimated price'}</Text>
+      <View style={styles.trailing}>
+        <Text style={styles.price} numberOfLines={1}>{formatRupees(item.status === 'purchased' ? item.actualPrice ?? item.estimatedPrice : item.estimatedPrice)}</Text>
         {(moveUp || moveDown) && (
           <View style={styles.orderControls}>
-            {moveUp && <Pressable accessibilityLabel="Move item up" onPress={moveUp} hitSlop={8}><Text style={styles.orderIcon}>↑</Text></Pressable>}
-            {moveDown && <Pressable accessibilityLabel="Move item down" onPress={moveDown} hitSlop={8}><Text style={styles.orderIcon}>↓</Text></Pressable>}
+            {moveUp && <Pressable accessibilityRole="button" accessibilityLabel="Move item up" onPress={moveUp} hitSlop={8} style={styles.orderButton}><Text style={styles.orderIcon}>↑</Text></Pressable>}
+            {moveDown && <Pressable accessibilityRole="button" accessibilityLabel="Move item down" onPress={moveDown} hitSlop={8} style={styles.orderButton}><Text style={styles.orderIcon}>↓</Text></Pressable>}
           </View>
         )}
-        <Text style={styles.editHint}>Open details  ›</Text>
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: colors.surface, borderColor: colors.line, borderRadius: 20, borderWidth: 1, padding: 14, gap: 8 },
-  pressed: { opacity: 0.8 },
-  topRow: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  priority: { borderRadius: 99, paddingHorizontal: 10, paddingVertical: 6 },
-  priorityText: { fontSize: 11, fontWeight: '800' },
-  price: { color: colors.ink, fontSize: 16, fontWeight: '800' },
-  name: { color: colors.ink, fontSize: 17, fontWeight: '800', lineHeight: 23 },
+  card: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderColor: colors.line,
+    borderRadius: 16,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    minHeight: 68,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  pressed: { opacity: 0.86 },
+  copy: { flex: 1, gap: 4, paddingRight: 12 },
+  meta: { alignItems: 'center', flexDirection: 'row', gap: 8 },
+  priority: { borderRadius: 99, paddingHorizontal: 8, paddingVertical: 3 },
+  priorityText: { fontSize: 10, fontWeight: '800' },
+  trailing: { alignItems: 'flex-end', justifyContent: 'center', minWidth: 74 },
+  price: { color: colors.ink, fontSize: 15, fontWeight: '800', maxWidth: 120, textAlign: 'right' },
+  name: { color: colors.ink, fontSize: 16, fontWeight: '800', lineHeight: 20 },
   purchasedName: { textDecorationLine: 'line-through' },
-  category: { color: colors.muted, fontSize: 13 },
-  bottomRow: { alignItems: 'center', borderTopColor: colors.line, borderTopWidth: 1, flexDirection: 'row', gap: 10, marginTop: 3, paddingTop: 10 },
-  itemCaption: { color: colors.muted, flex: 1, fontSize: 12 },
-  orderControls: { flexDirection: 'row', gap: 14 },
-  orderIcon: { color: colors.green, fontSize: 19, fontWeight: '800' },
-  editHint: { color: colors.green, fontSize: 12, fontWeight: '700' },
+  category: { color: colors.muted, flexShrink: 1, fontSize: 12 },
+  orderControls: { flexDirection: 'row', gap: 2, marginTop: 1 },
+  orderButton: { alignItems: 'center', height: 28, justifyContent: 'center', width: 28 },
+  orderIcon: { color: colors.green, fontSize: 16, fontWeight: '800' },
 });

@@ -42,7 +42,7 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
         accessibilityLabel={options?.tabBarAccessibilityLabel ?? tab.label}
         onPress={onPress}
         onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
-        android_ripple={{ color: '#245D4D12', borderless: true }}
+        android_ripple={{ color: colors.greenLight, borderless: true }}
         style={styles.tab}
       >
         <Text style={[styles.icon, tab.icon === '•••' && styles.moreIcon, { color }]}>{tab.icon}</Text>
@@ -117,19 +117,19 @@ const styles = StyleSheet.create({
   },
   addButtonCircle: {
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#FFFFFF',
+    backgroundColor: colors.green,
+    borderColor: colors.background,
     borderRadius: 32,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 3,
     elevation: 6,
     height: 64,
     justifyContent: 'center',
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.16,
-    shadowRadius: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     width: 64,
   },
   addPressed: { opacity: 0.88, transform: [{ scale: 0.96 }] },
-  plus: { color: '#1F2026', fontSize: 31, fontWeight: '400', lineHeight: 35, marginTop: -1 },
+  plus: { color: colors.background, fontSize: 31, fontWeight: '400', lineHeight: 35, marginTop: -1 },
 });
