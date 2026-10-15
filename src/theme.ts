@@ -28,10 +28,10 @@ export const categoryPalette = [
 ];
 
 export const priorityLabels: Record<1 | 2 | 3 | 4, string> = {
-  1: 'Critical',
-  2: 'High',
-  3: 'Normal',
-  4: 'Later',
+  1: 'Must Have',
+  2: 'Next Up',
+  3: 'Nice to Have',
+  4: 'Someday',
 };
 
 export const priorityColors: Record<1 | 2 | 3 | 4, { foreground: string; background: string }> = {
